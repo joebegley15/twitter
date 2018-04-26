@@ -1,7 +1,7 @@
 var bot = require('./bot');
 var postTweet = bot.postTweet;
 var https = require('https');
-var tweetFrequency = 300000;
+var tweetFrequency = 60000;
 
 function priceChange(data) {
 	var dataObj = JSON.parse(data);
