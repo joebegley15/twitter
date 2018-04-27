@@ -1,7 +1,7 @@
 var bot = require('./bot');
 var postTweet = bot.postTweet;
 var https = require('https');
-var tweetFrequency = 60000;
+var tweetFrequency = 600000;
 
 function priceChange(data) {
 	var dataObj = JSON.parse(data);
@@ -19,7 +19,7 @@ function priceChange(data) {
 			var upDwn = 'down ';
 			change = change * -1;
 		}
-		tweet = symbol + ' is ' + upDwn + change + ' pts (' + pctDay + '%) ' + sentenceEnders[Math.floor(Math.random() * sentenceEnders.length)];
+		tweet = symbol + ' is ' + upDwn + '$' + change + ' (' + pctDay + '%) ' + sentenceEnders[Math.floor(Math.random() * sentenceEnders.length)] + '.';
 	}
 	if (tweet) {
 		if (news) {
@@ -50,7 +50,7 @@ function stockQuery(ticker,reqType){
 }
 
 var i = 0;
-tickerArr = ['BAC','COF','CGNX','SNAP','NVDA','GOOG','BABA','MSFT','BRK.A','AAPL','SHOP','AMZN','TWTR','FB','F','TSLA','NFLX','BA','OSTK','SQR','NKE','SHAK','MCD','SBUX','YUM','LUV','DIS'];
+tickerArr = ['SQ','NKE','SHAK','MCD','SBUX','YUM','LUV','DIS','BAC','COF','CGNX','SNAP','NVDA','GOOG','BABA','MSFT','BRK.A','AAPL','SHOP','AMZN','TWTR','FB','F','TSLA','NFLX','BA','P'];
 
 
 stockQuery(tickerArr[Math.floor(Math.random() * tickerArr.length)]);
