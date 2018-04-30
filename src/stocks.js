@@ -41,7 +41,12 @@ function stockQuery(ticker,reqType){
 	 
 	  // The whole response has been received. Print out the result.
 	  resp.on('end', () => {
-	  	priceChange(data);
+	  	var date = new Date();
+	  	var dayOfWeek = date.getDay();
+	  	var hour = date.getHours();
+	  	if (dayOfWeek < 6 && hour > 6 && hour < 19) {
+	  		priceChange(data);
+	  	}
 	  });
 	 
 	}).on("error", (err) => {
@@ -49,15 +54,17 @@ function stockQuery(ticker,reqType){
 	})
 }
 
-var i = 0;
-tickerArr = ['SQ','NKE','SHAK','MCD','SBUX','YUM','LUV','DIS','BAC','COF','CGNX','SNAP','NVDA','GOOG','BABA','MSFT','BRK.A','AAPL','SHOP','AMZN','TWTR','FB','F','TSLA','NFLX','BA','P'];
-
-
-stockQuery(tickerArr[Math.floor(Math.random() * tickerArr.length)]);
-setInterval(function(){
-	if (i == tickerArr.length){
-		i = 0;
-	}
+function timedStockRequest(){
+	tickerArr = ['SQ','NKE','SHAK','MCD','SBUX','YUM','LUV','DIS','BAC','COF','CGNX','SNAP','NVDA','GOOG','BABA','MSFT','BRK.A','AAPL','SHOP','AMZN','TWTR','FB','F','TSLA','NFLX','BA','P'];
+	var i = Math.floor(Math.random() * tickerArr.length);
 	stockQuery(tickerArr[i]);
-	i++;
-},tweetFrequency)
+	setInterval(function(){
+		if (i == tickerArr.length){
+			i = 0;
+		}
+		stockQuery(tickerArr[i]);
+		i++;
+	},tweetFrequency)
+}
+
+timedStockRequest();
