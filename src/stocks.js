@@ -54,9 +54,21 @@ function stockQuery(ticker,reqType){
 	})
 }
 
+function shuffleArr(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
 function timedStockRequest(){
 	tickerArr = ['SQ','NKE','SHAK','MCD','SBUX','YUM','LUV','DIS','BAC','COF','CGNX','SNAP','NVDA','GOOG','BABA','MSFT','BRK.A','AAPL','SHOP','AMZN','TWTR','FB','F','TSLA','NFLX','BA','P'];
-	var i = Math.floor(Math.random() * tickerArr.length);
+	tickerArr = shuffleArr(tickerArr);
+	var i = 0;
 	stockQuery(tickerArr[i]);
 	setInterval(function(){
 		if (i == tickerArr.length){
