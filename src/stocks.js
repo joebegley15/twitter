@@ -1,18 +1,19 @@
 var bot = require('./bot');
+var functionality = require('./functionality');
 var postTweet = bot.postTweet;
 var https = require('https');
 var tweetFrequency = 600000;
 
-function priceChange(data) {
+function tradingHours(data) {
 	var dataObj = JSON.parse(data);
 	var quote = dataObj['quote'];
 	var news = dataObj['news'];
 	var tweet = '';
 	if (quote) {
-		var change = quote['change'];
-		var symbol = quote['symbol'];
-		var open = quote['open'];
-		var pctDay = Math.round((change / open) * 10000) / 100;
+		var week52High = quote['week52High'], week52Low = quote['week52Low'], price = quote['latestPrice'], change = quote['change'], symbol = quote['symbol'], previousClose = quote['previousClose'];
+		var pctDay = Math.round(quote['changePercent'] * 10000) / 100;
+		var fromLow = Math.floor(((price - week52Low) / week52Low) * 100);
+		var fromHigh = Math.floor(((week52High - price) / week52High) * 100);
 		var upDwn = 'up ';
 		var sentenceEnders = ['today', 'on the day', 'so far today', 'from opening'];
 		if (change < 0) {
@@ -20,6 +21,12 @@ function priceChange(data) {
 			change = change * -1;
 		}
 		tweet = symbol + ' is ' + upDwn + '$' + change + ' (' + pctDay + '%) ' + sentenceEnders[Math.floor(Math.random() * sentenceEnders.length)] + '.';
+		console.log(fromHigh, fromLow);
+		if (fromLow > 20 && fromHigh < fromLow) {
+			tweet += ' The stock is still up more than ' + fromLow + ' from it\'s 52 week low.'	
+		} else if (fromHigh > 20) {
+			tweet += ' The stock is still down more than ' + fromHigh + '% from it\'s 52 week high.'	
+		}
 	}
 	if (tweet) {
 		if (news) {
@@ -27,6 +34,10 @@ function priceChange(data) {
 		}
 		postTweet(tweet);
 	}
+
+}
+
+function nonTradingHours(data){
 
 }
 
@@ -45,7 +56,7 @@ function stockQuery(ticker,reqType){
 	  	var dayOfWeek = date.getDay();
 	  	var hour = date.getHours();
 	  	if (dayOfWeek < 6 && hour > 6 && hour < 19) {
-	  		priceChange(data);
+	  		tradingHours(data);
 	  	}
 	  });
 	 
@@ -54,20 +65,9 @@ function stockQuery(ticker,reqType){
 	})
 }
 
-function shuffleArray(a) {
-    var j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-    }
-    return a;
-}
-
 function timedStockRequest(){
 	tickerArr = ['SQ','NKE','SHAK','MCD','SBUX','YUM','LUV','DIS','BAC','COF','CGNX','SNAP','NVDA','GOOG','BABA','MSFT','BRK.A','AAPL','SHOP','AMZN','TWTR','FB','F','TSLA','NFLX','BA','P'];
-	tickerArr = shuffleArray(tickerArr);
+	tickerArr = functionality.shuffleArray(tickerArr);
 	stockQuery(tickerArr[0]);
 	var i = 1;
 	setInterval(function(){
