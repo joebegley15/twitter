@@ -3,6 +3,7 @@ var functionality = require('./functionality');
 var postTweet = bot.postTweet;
 var https = require('https');
 var tweetFrequency = 600000;
+var tickerArr = require('./tickers').tickers;
 
 function tradingHours(data) {
 	var dataObj = JSON.parse(data);
@@ -38,7 +39,7 @@ function tradingHours(data) {
 }
 
 function nonTradingHours(data){
-
+	console.log(tickerArr);
 }
 
 function stockQuery(ticker,reqType){
@@ -57,6 +58,8 @@ function stockQuery(ticker,reqType){
 	  	var hour = date.getHours();
 	  	if (dayOfWeek < 6 && hour > 6 && hour < 19) {
 	  		tradingHours(data);
+	  	} else {
+	  		nonTradingHours();
 	  	}
 	  });
 	 
@@ -66,7 +69,6 @@ function stockQuery(ticker,reqType){
 }
 
 function timedStockRequest(){
-	tickerArr = ['SQ','NKE','SHAK','MCD','SBUX','YUM','LUV','DIS','BAC','COF','CGNX','SNAP','NVDA','GOOG','BABA','MSFT','BRK.A','AAPL','SHOP','AMZN','TWTR','FB','F','TSLA','NFLX','BA','P'];
 	tickerArr = functionality.shuffleArray(tickerArr);
 	stockQuery(tickerArr[0]);
 	var i = 1;
