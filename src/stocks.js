@@ -5,7 +5,7 @@ var https = require('https');
 var tweetFrequency = 600000;
 var tickerArr = require('./tickers').tickers;
 
-function tradingHours(data) {
+function tradingHours(data,ticker) {
 	var dataObj = JSON.parse(data);
 	var quote = dataObj['quote'];
 	var news = dataObj['news'];
@@ -22,13 +22,15 @@ function tradingHours(data) {
 			change = change * -1;
 		}
 		tweet = symbol + ' is ' + upDwn + '$' + change + ' (' + pctDay + '%) ' + sentenceEnders[Math.floor(Math.random() * sentenceEnders.length)] + '.';
-		console.log(fromHigh, fromLow);
 		if (fromLow > 20 && fromHigh < fromLow) {
-			tweet += ' The stock is still up more than ' + fromLow + ' from it\'s 52 week low.'	
+			tweet += ' The stock is up more than ' + fromLow + '% from it\'s 52 week low.'	
 		} else if (fromHigh > 20) {
-			tweet += ' The stock is still down more than ' + fromHigh + '% from it\'s 52 week high.'	
+			tweet += ' The stock is down more than ' + fromHigh + '% from it\'s 52 week high.'	
 		}
 	}
+	// var hashTags = ['stocks', 'trading','iexAPI']; ' #' + hashTags[Math.floor(Math.random() * hashTags.length)] + 
+
+	tweet += ' #' + ticker;
 	if (tweet) {
 		if (news) {
 			tweet += ' ' + news[0]['url'];
@@ -57,7 +59,7 @@ function stockQuery(ticker,reqType){
 	  	var dayOfWeek = date.getDay();
 	  	var hour = date.getHours();
 	  	if (dayOfWeek < 6 && hour > 6 && hour < 19) {
-	  		tradingHours(data);
+	  		tradingHours(data,ticker);
 	  	} else {
 	  		nonTradingHours();
 	  	}
