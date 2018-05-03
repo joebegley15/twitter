@@ -11,6 +11,7 @@ function tradingHours(data,ticker) {
 	var news = dataObj['news'];
 	var tweet = '';
 	if (quote) {
+		var name = quote['companyName'];
 		var week52High = quote['week52High']; 
 		var week52Low = quote['week52Low']; 
 		var price = quote['latestPrice']; 
@@ -26,7 +27,7 @@ function tradingHours(data,ticker) {
 			var upDwn = 'down ';
 			change = change * -1;
 		}
-		tweet = symbol + ' is ' + upDwn + '$' + change + ' (' + pctDay + '%) ' + sentenceEnders[Math.floor(Math.random() * sentenceEnders.length)] + '.';
+		tweet = name + ' is ' + upDwn + '$' + change + ' (' + pctDay + '%) ' + sentenceEnders[Math.floor(Math.random() * sentenceEnders.length)] + '.';
 		if (fromLow > 25 && fromHigh < fromLow) {
 			tweet += ' The stock is up more than ' + fromLow + '% from it\'s 52 week low.'	
 		} else if (fromHigh > 25) {
