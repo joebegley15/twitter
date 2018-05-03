@@ -14,7 +14,7 @@ function tradingHours(data,ticker) {
 		var week52High = quote['week52High']; 
 		var week52Low = quote['week52Low']; 
 		var price = quote['latestPrice']; 
-		var change = quote['change']; 
+		var change = Math.round(quote['change'] * 100) / 100; 
 		var symbol = quote['symbol']; 
 		var previousClose = quote['previousClose'];
 		var pctDay = Math.round(quote['changePercent'] * 10000) / 100;
