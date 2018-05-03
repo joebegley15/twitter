@@ -11,7 +11,12 @@ function tradingHours(data,ticker) {
 	var news = dataObj['news'];
 	var tweet = '';
 	if (quote) {
-		var week52High = quote['week52High'], week52Low = quote['week52Low'], price = quote['latestPrice'], change = quote['change'], symbol = quote['symbol'], previousClose = quote['previousClose'];
+		var week52High = quote['week52High']; 
+		var week52Low = quote['week52Low']; 
+		var price = quote['latestPrice']; 
+		var change = quote['change']; 
+		var symbol = quote['symbol']; 
+		var previousClose = quote['previousClose'];
 		var pctDay = Math.round(quote['changePercent'] * 10000) / 100;
 		var fromLow = Math.floor(((price - week52Low) / week52Low) * 100);
 		var fromHigh = Math.floor(((week52High - price) / week52High) * 100);
@@ -22,9 +27,9 @@ function tradingHours(data,ticker) {
 			change = change * -1;
 		}
 		tweet = symbol + ' is ' + upDwn + '$' + change + ' (' + pctDay + '%) ' + sentenceEnders[Math.floor(Math.random() * sentenceEnders.length)] + '.';
-		if (fromLow > 20 && fromHigh < fromLow) {
+		if (fromLow > 25 && fromHigh < fromLow) {
 			tweet += ' The stock is up more than ' + fromLow + '% from it\'s 52 week low.'	
-		} else if (fromHigh > 20) {
+		} else if (fromHigh > 25) {
 			tweet += ' The stock is down more than ' + fromHigh + '% from it\'s 52 week high.'	
 		}
 	}
@@ -41,7 +46,7 @@ function tradingHours(data,ticker) {
 }
 
 function nonTradingHours(data){
-	console.log(tickerArr);
+	console.log('Out of trading hours');
 }
 
 function stockQuery(ticker,reqType){
