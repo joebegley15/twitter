@@ -27,5 +27,21 @@ function slide(dm,handle){
 	})
 }
 
+function getFollowers(screenName) {
+	bot.get('followers/list', {
+	  screen_name: screenName,
+	  count:200
+	}, (err, data, response) => {
+	  if (err) {
+	    console.log(err)
+	  } else {
+	    data.users.forEach(user => {
+	      console.log(user.screen_name)
+	    })
+	  }
+	})
+}
+
 module.exports.postTweet = postTweet;
 module.exports.slide = slide;
+module.exports.getFollowers = getFollowers;

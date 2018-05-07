@@ -1,1 +1,1 @@
-require('./src/stocks');
+require('./src/main');

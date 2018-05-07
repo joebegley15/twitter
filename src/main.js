@@ -5,6 +5,7 @@ var https = require('https');
 var tweetFrequency = 600000;
 var tickerArr = require('./tickers').tickers;
 var slide = bot.slide;
+var getFollowers = bot.getFollowers;
 
 function tradingHours(data,ticker) {
 	var dataObj = JSON.parse(data);
@@ -102,7 +103,8 @@ function stockQuery(ticker,reqType){
 	  	var dayOfWeek = date.getDay();
 	  	var hour = date.getHours();
 	  	if (dayOfWeek < 6 && hour > 6 && hour < 19) {
-	  		tradingHours(data,ticker);
+	  		getFollowers('i_am_stock_bot');
+	  		// tradingHours(data,ticker);
 	  	} else {
 	  	}
 	  });
