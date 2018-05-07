@@ -14,4 +14,18 @@ function postTweet(tweet) {
 	})
 }
 
+function slide(dm,handle){
+	bot.post('direct_messages/new', {
+	  screen_name: handle,
+	  text: dm
+	}, (err, data, response) => {
+	  if (err) {
+	    console.log(err)
+	  } else {
+	    console.log(data)
+	  }
+	})
+}
+
 module.exports.postTweet = postTweet;
+module.exports.slide = slide;
