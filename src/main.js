@@ -1,4 +1,4 @@
-var bot = require('./bot');
+var bot = require('./twitter');
 var functionality = require('./functionality');
 var postTweet = bot.postTweet;
 var https = require('https');
