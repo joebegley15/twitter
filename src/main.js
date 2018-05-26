@@ -8,6 +8,10 @@ var slide = bot.slide;
 var getFollowers = bot.getFollowers;
 var autoDM = bot.autoDM;
 
+function randomFrequency(tweetFrequency) {
+	return tweetFrequency * Math.random() * 2;
+}
+
 function tradingHours(data,ticker) {
 	var dataObj = JSON.parse(data);
 	var quote = dataObj['quote'];
@@ -84,7 +88,7 @@ function timedStockRequest(){
 		}
 		stockQuery(tickerArr[i]);
 		i++;
-	},tweetFrequency)
+	}, randomFrequency(tweetFrequency))
 }
 
 timedStockRequest();
