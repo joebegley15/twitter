@@ -22,10 +22,10 @@ function tradingHours(data,ticker) {
 		var week52High = quote['week52High']; 
 		var week52Low = quote['week52Low']; 
 		var price = quote['latestPrice']; 
-		var change = Math.round(quote['change'] * 100) / 100; 
+		var change = (Math.round(quote['change']*Math.pow(10,2))/Math.pow(10,2)).toFixed(2);
 		var symbol = quote['symbol']; 
 		var previousClose = quote['previousClose'];
-		var pctDay = Math.round(quote['changePercent'] * 10000) / 100;
+		var pctDay = (Math.round(quote['changePercent']* 100 *Math.pow(10,2))/Math.pow(10,2)).toFixed(2);
 		var fromLow = Math.floor(((price - week52Low) / week52Low) * 100);
 		var fromHigh = Math.floor(((week52High - price) / week52High) * 100);
 		var upDwn = 'up ';
